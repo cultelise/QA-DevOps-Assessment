@@ -121,7 +121,7 @@ const drawFive = () => {
 	//To test win/loss counters uncomment lines 123, 130, 131 and 132
 	//Also comment lines 124-127
 	//axios.get('api/robots').then((res) => {
-	axios.get('http://3.138.135.156/api/robots/shuffled').then((res) => {
+	axios.get('/api/robots/shuffled').then((res) => {
 		const shuffledBots = res.data;
 		choices = shuffledBots.slice(0, 5);
 		compDuo = shuffledBots.slice(6, 8);
@@ -146,13 +146,11 @@ const duel = () => {
 		.querySelectorAll('.bot-btn')
 		.forEach((btn) => btn.classList.add('hide'));
 	setTimeout(() => {
-		axios
-			.post('http://3.138.135.156/api/duel', { compDuo, playerDuo })
-			.then(({ data }) => {
-				resultsText.textContent = data;
-				playAgainBtn.classList.remove('hide');
-				getPlayerStats();
-			});
+		axios.post('/api/duel', { compDuo, playerDuo }).then(({ data }) => {
+			resultsText.textContent = data;
+			playAgainBtn.classList.remove('hide');
+			getPlayerStats();
+		});
 	}, 1500);
 };
 
@@ -170,16 +168,14 @@ const reset = () => {
 };
 
 const getPlayerStats = () => {
-	axios
-		.get('http://3.138.135.156/api/player')
-		.then(({ data: { wins, losses } }) => {
-			winsText.textContent = `Wins: ${wins}`;
-			lossesTest.textContent = `Losses: ${losses}`;
-		});
+	axios.get('/api/player').then(({ data: { wins, losses } }) => {
+		winsText.textContent = `Wins: ${wins}`;
+		lossesTest.textContent = `Losses: ${losses}`;
+	});
 };
 
 const getAllBots = () => {
-	axios.get('http://3.138.135.156/api/robots').then(({ data }) => {
+	axios.get('/api/robots').then(({ data }) => {
 		allBotsDiv.innerHTML = '';
 
 		data.forEach((bot) => {
